@@ -12,6 +12,8 @@ import android.telephony.SmsMessage;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.toulza.smsforwarder.data.MessageHelper;
+
 /**
  * Created by Pierre on 26/06/2015.
  */
@@ -45,7 +47,6 @@ public class SmsReceiver extends BroadcastReceiver {
         Bundle extras = intent.getExtras();
 
         String messages = "";
-        Log.i("Message received","YEEEEAHHH");
         if ( extras != null )
         {
             // Get received SMS array
@@ -60,23 +61,19 @@ public class SmsReceiver extends BroadcastReceiver {
                 body = sms.getMessageBody().toString();
 
                 String address = sms.getOriginatingAddress();
-
                 messages += "SMS from " + address + " :\n";
                 messages += body + "\n";
-                Log.i("SmsReceiver","Message received from :" + address + " - <"+body+">");
-                // Here you can add any your code to work with incoming SMS
-                // I added encrypting of all received SMS
-
                 putSmsToDatabase( contentResolver, sms );
 
             }
-
-            // Display SMS message
-            if(body.toUpperCase().equals("HELLO")) {
-                SmsManager smsManager = SmsManager.getDefault();
-                smsManager.sendTextMessage("+33626699180", null, "ACK!!", null, null);
+            if(body!=null) {
+                MessageHelper sms = MessageHelper.getMessageInfos(body);
+                if (sms != null && sms.getHandler().equals("FORWARD")) {
+                    SmsManager smsManager = SmsManager.getDefault();
+                    smsManager.sendTextMessage( sms.getDest(), null, sms.getContent(), null, null);
+                    Toast.makeText(context, "Forwarded to : "  + sms.getDest(), Toast.LENGTH_SHORT).show();
+                }
             }
-            Toast.makeText(context, messages, Toast.LENGTH_SHORT).show();
         }
 
         // WARNING!!!
