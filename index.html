@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="description" content="Smsforwarder : Android SMS forwarder using rules">
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Smsforwarder</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/ptoulza/SmsForwarder">View on GitHub</a>
+
+          <h1 id="project_title">Smsforwarder</h1>
+          <h2 id="project_tagline">Android SMS forwarder using rules</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/ptoulza/SmsForwarder/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/ptoulza/SmsForwarder/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1>
+<a id="smsforwarder" class="anchor" href="#smsforwarder" aria-hidden="true"><span class="octicon octicon-link"></span></a>SmsForwarder</h1>
+
+<p>Android SMS forwarder using rules.
+Rules modification are not implemented yet.</p>
+
+<h2>
+<a id="how-it-works" class="anchor" href="#how-it-works" aria-hidden="true"><span class="octicon octicon-link"></span></a>How it works</h2>
+
+<p>Today, it doesn't do much. The activity doesn't display anything. </p>
+
+<p>A SMS Receiver captures all SMS messages and parse them before the default SMS application does its duty. This also works even if the activity is not running foreground.
+If a SMS has the following structure :</p>
+
+<ul>
+<li>1st line = FORWARD</li>
+<li>2nd line = a phone number (not controlled yet)</li>
+<li>3rd line = a string message (not controlled yet.. has sure to be)</li>
+</ul>
+
+<p>then the SMS Receiver creates a new SMS using the following structure :</p>
+
+<ul>
+<li>destination number provided on 2nd line of the previous SMS</li>
+<li>content body of the SMS provided on 3rd line of the previous SMS</li>
+</ul>
+
+<p>Example of message :
+FORWARD
++33626262626
+Say Hello To SMS Forwarder</p>
+
+<h2>
+<a id="how-to-test-french-freemobile-users" class="anchor" href="#how-to-test-french-freemobile-users" aria-hidden="true"><span class="octicon octicon-link"></span></a>How to test (French FreeMobile users)</h2>
+
+<p>First have a look at : <a href="http://www.freenews.fr/freenews-edition-nationale-299/free-mobile-170/nouvelle-option-notifications-par-sms-chez-free-mobile-14817">http://www.freenews.fr/freenews-edition-nationale-299/free-mobile-170/nouvelle-option-notifications-par-sms-chez-free-mobile-14817</a>
+This step is needed in order to activate the option.</p>
+
+<p>To test :
+<a href="https://smsapi.free-mobile.fr/sendmsg?user=(free_mobile_user)&amp;pass=(free_mobile_pass)=FORWARD%0d+33626262626%0dFREE">https://smsapi.free-mobile.fr/sendmsg?user=(free_mobile_user)&amp;pass=(free_mobile_pass)=FORWARD%0d+33626262626%0dFREE</a></p>
+
+<ul>
+<li>user = your Free mobile ID</li>
+<li>pass = the passkey provided by Free</li>
+<li>msg = the message you have to send
+
+<ul>
+<li>%0D are URL encoded cariage return (known as '\r').</li>
+<li>%0A are URL encoded new line (known as '\n'), but doesn't seem to be OK with SMS.</li>
+</ul>
+</li>
+</ul>
+
+<h2>
+<a id="future-plans" class="anchor" href="#future-plans" aria-hidden="true"><span class="octicon octicon-link"></span></a>Future plans</h2>
+
+<ul>
+<li>List of forwarded message in activity</li>
+<li>Control of phone number provided in source SMS</li>
+<li>Control of content provided in source SMS</li>
+</ul>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Smsforwarder maintained by <a href="https://github.com/ptoulza">ptoulza</a></p>
+        <p>Published with <a href="https://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
