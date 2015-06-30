@@ -63,15 +63,19 @@ public class SmsReceiver extends BroadcastReceiver {
                 String address = sms.getOriginatingAddress();
                 messages += "SMS from " + address + " :\n";
                 messages += body + "\n";
-                putSmsToDatabase( contentResolver, sms );
+                //Unusable if not default SMS app
+                //putSmsToDatabase( contentResolver, sms );
 
             }
             if(body!=null) {
                 MessageHelper sms = MessageHelper.getMessageInfos(body);
-                if (sms != null && sms.getHandler().equals("FORWARD")) {
+                if (sms != null) {
                     SmsManager smsManager = SmsManager.getDefault();
-                    smsManager.sendTextMessage( sms.getDest(), null, sms.getContent(), null, null);
-                    Toast.makeText(context, "Forwarded to : "  + sms.getDest(), Toast.LENGTH_SHORT).show();
+                    for(String dest : sms.getDest()) {
+                        smsManager.sendTextMessage(dest, null, sms.getContent(), null, null);
+                        Toast.makeText(context, "Forwarded to : "  + sms.getDest(), Toast.LENGTH_SHORT).show();
+                    }
+
                 }
             }
         }
