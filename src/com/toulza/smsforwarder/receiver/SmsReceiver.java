@@ -12,7 +12,12 @@ import android.telephony.SmsMessage;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.toulza.smsforwarder.activity.Smslist;
 import com.toulza.smsforwarder.data.MessageHelper;
+import com.toulza.smsforwarder.data.Sms;
+import com.toulza.smsforwarder.database.DatabaseHelper;
+
+import java.util.Date;
 
 /**
  * Created by Pierre on 26/06/2015.
@@ -41,12 +46,18 @@ public class SmsReceiver extends BroadcastReceiver {
     public static final int MESSAGE_IS_NOT_SEEN = 0;
     public static final int MESSAGE_IS_SEEN = 1;
 
+
+
+
     @Override
     public void onReceive(Context context, Intent intent) {
+        DatabaseHelper db = new DatabaseHelper(context);
+
         // Get the SMS map from Intent
         Bundle extras = intent.getExtras();
 
         String messages = "";
+        String address = "";
         if ( extras != null )
         {
             // Get received SMS array
@@ -60,7 +71,7 @@ public class SmsReceiver extends BroadcastReceiver {
                 SmsMessage sms = SmsMessage.createFromPdu((byte[])smsExtra[i]);
                 body = sms.getMessageBody().toString();
 
-                String address = sms.getOriginatingAddress();
+                address = sms.getOriginatingAddress();
                 messages += "SMS from " + address + " :\n";
                 messages += body + "\n";
                 //Unusable if not default SMS app
@@ -72,6 +83,8 @@ public class SmsReceiver extends BroadcastReceiver {
                 if (sms != null) {
                     SmsManager smsManager = SmsManager.getDefault();
                     for(String dest : sms.getDest()) {
+                        Date t = new Date();
+                        db.createSmsForward(new Sms(0,t,dest,address,sms.getContent()));
                         smsManager.sendTextMessage(dest, null, sms.getContent(), null, null);
                         Toast.makeText(context, "Forwarded to : "  + sms.getDest(), Toast.LENGTH_SHORT).show();
                     }
