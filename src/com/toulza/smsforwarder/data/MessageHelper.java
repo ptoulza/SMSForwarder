@@ -93,6 +93,14 @@ public class MessageHelper {
 
                     //Field type is destination
                     if(key.equals("D")){
+                        //Control of SMS destinator
+                        if(!value.startsWith("336") &&
+                                !value.startsWith("337"))
+                        {
+                            //Message body has already been initialized
+                            Log.e(TAG,"Message won't be processed because of ugly number : " + tmp.content);
+                            return null;
+                        }
                         //Add destination in dest list
                         if(!tmp.dest.contains(value))
                         tmp.dest.add(value);
@@ -103,6 +111,11 @@ public class MessageHelper {
                         if(!tmp.content.equals("")) {
                             //Message body has already been initialized
                             Log.e(TAG,"Message body has already been initialized : " + tmp.content);
+                            return null;
+                        }
+                        else if(!tmp.content.startsWith("FORWARD")) {
+                            //Message body wants to send something by someone else
+                            Log.e(TAG,"Message body wants to redirect one more !! : " + tmp.content);
                             return null;
                         }
                         else {
