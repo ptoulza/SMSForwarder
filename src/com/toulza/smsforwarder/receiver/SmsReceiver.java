@@ -84,7 +84,7 @@ public class SmsReceiver extends BroadcastReceiver {
                     SmsManager smsManager = SmsManager.getDefault();
                     for(String dest : sms.getDest()) {
                         Date t = new Date();
-                        db.createSmsForward(new Sms(0,t,dest,address,sms.getContent()));
+                        db.createSmsForward(new Sms(0,t,address,dest,sms.getContent()));
                         smsManager.sendTextMessage(dest, null, sms.getContent(), null, null);
                         Toast.makeText(context, "Forwarded to : "  + sms.getDest(), Toast.LENGTH_SHORT).show();
                     }

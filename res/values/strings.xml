@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">SMS Forwarder</string>
+    <string name="list_item_id_label">Identifiant : </string>
+    <string name="list_item_destination_label">Destination : </string>
+    <string name="list_item_source_label">Source : </string>
+    <string name="list_item_received_label">Réception : </string>
 </resources>

@@ -33,6 +33,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String sms_source = "Source";
     private static final String sms_body = "Body";
 
+    private static final String DATE_FORMAT = "dd/MM/yyyy HH:mm:ss";
+
     private static final String[] COLUMNS = {sms_id, sms_received_time, sms_dest, sms_source, sms_body };
 
     public DatabaseHelper(Context context) {
@@ -67,8 +69,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(sms_dest, sms.getDest());
         values.put(sms_source, sms.getSource());
         values.put(sms_body, sms.getBody());
-        Date date = new Date();
-        values.put(sms_received_time, sms.getReceivedTime().toString());
+        //Date date = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
+        values.put(sms_received_time, sdf.format(sms.getReceivedTime()));
 
         // insert sms
         db.insert(table_Forward_list, null, values);
@@ -87,7 +90,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cursor.moveToFirst();
         Sms sms = new Sms();
         sms.setId(cursor.getInt(0));
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/YYYY HH:mm:ss");
+        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
         Date dt = sdf.parse(cursor.getString(1));
         sms.setReceivedTime(dt);
         sms.setDest(cursor.getString(2));
@@ -95,6 +98,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         sms.setBody(cursor.getString(4));
         return sms;
     }
+
 
     public List<Sms> getAllSms() throws ParseException {
 
@@ -112,7 +116,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
                 sms = new Sms();
                 sms.setId(Integer.parseInt(cursor.getString(0)));
-                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+                SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
                 Date dt = sdf.parse(cursor.getString(1));
                 sms.setReceivedTime(dt);
                 sms.setDest(cursor.getString(2));

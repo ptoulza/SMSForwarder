@@ -34,7 +34,7 @@ public class Smslist extends Activity {
 
             ArrayList listSms = new ArrayList();
             for (int i = 0; i < list.size(); i++) {
-                listSms.add(i, list.get(i).getBody());
+                listSms.add(i, list.get(i));
             }
             adapter = new SmsListItemAdapter(this.getApplicationContext(),listSms);
             ListView listView = (ListView) findViewById(R.id.list);

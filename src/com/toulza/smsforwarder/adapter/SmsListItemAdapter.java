@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.toulza.smsforwarder.R;
 import com.toulza.smsforwarder.data.Sms;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 /**
@@ -19,6 +20,8 @@ public class SmsListItemAdapter extends ArrayAdapter<Sms> {
     public SmsListItemAdapter(Context context, ArrayList<Sms> smslist) {
         super(context, 0, smslist);
     }
+
+    private static final String DATE_FORMAT = "dd/MM/yyyy HH:mm:ss";
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -35,8 +38,9 @@ public class SmsListItemAdapter extends ArrayAdapter<Sms> {
         TextView source = (TextView) convertView.findViewById(R.id.source);
         TextView body = (TextView) convertView.findViewById(R.id.body);
 
-        id.setText(sms.getId());
-        received.setText(sms.getReceivedTime().toString());
+        id.setText(sms.getId()+"");
+        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
+        received.setText(sdf.format(sms.getReceivedTime()));
         dest.setText(sms.getDest());
         source.setText(sms.getSource());
         body.setText(sms.getBody());
