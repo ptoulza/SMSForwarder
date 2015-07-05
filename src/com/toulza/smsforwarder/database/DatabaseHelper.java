@@ -25,21 +25,22 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     // database version
     private static final int database_VERSION = 1;
     // database name
-    private static final String database_NAME = "SmsForwarderDB";
-    private static final String table_Forward_list = "ForwardList";
-    private static final String sms_id = "Id";
-    private static final String sms_received_time = "ReceivedTime";
-    private static final String sms_dest = "Destination";
-    private static final String sms_source = "Source";
-    private static final String sms_body = "Body";
+    public static final String database_NAME = "SmsForwarderDB";
+    public static final String table_Forward_list = "ForwardList";
+    public static final String sms_id = "Id";
+    public static final String sms_received_time = "ReceivedTime";
+    public static final String sms_dest = "Destination";
+    public static final String sms_source = "Source";
+    public static final String sms_body = "Body";
 
-    private static final String DATE_FORMAT = "dd/MM/yyyy HH:mm:ss";
+    public static final String DATE_FORMAT = "dd/MM/yyyy HH:mm:ss";
 
-    private static final String[] COLUMNS = {sms_id, sms_received_time, sms_dest, sms_source, sms_body };
+    public static final String[] COLUMNS = {sms_id, sms_received_time, sms_dest, sms_source, sms_body };
 
     public DatabaseHelper(Context context) {
         super(context, database_NAME, null, database_VERSION);
     }
+
 
 
     @Override
@@ -99,6 +100,27 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return sms;
     }
 
+    public Cursor getAllSmsCursor()
+    {
+        String query = "SELECT "+ sms_id + " AS _id, " + sms_received_time +", " + sms_dest + ", " + sms_body + " FROM " + table_Forward_list;
+
+        // get reference of the SmsDB database
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+        return cursor;
+    }
+
+    public String getAllColums() {
+        String res = "";
+        int c = COLUMNS.length;
+        int i = 1;
+        for (String col : COLUMNS) {
+            res += col + (i < c ? ", " : "");
+            ++i;
+
+        }
+        return res;
+    }
 
     public List<Sms> getAllSms() throws ParseException {
 
@@ -122,7 +144,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 sms.setDest(cursor.getString(2));
                 sms.setSource(cursor.getString(3));
                 sms.setBody(cursor.getString(4));
-                // Add book to books
+                // Sms to Smss
                 forwards.add(sms);
                 } while (cursor.moveToNext());
         }

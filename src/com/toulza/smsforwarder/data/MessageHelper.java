@@ -113,7 +113,7 @@ public class MessageHelper {
                             Log.e(TAG,"Message body has already been initialized : " + tmp.content);
                             return null;
                         }
-                        else if(!tmp.content.startsWith("FORWARD")) {
+                        else if(tmp.content.startsWith("FORWARD")) {
                             //Message body wants to send something by someone else
                             Log.e(TAG,"Message body wants to redirect one more !! : " + tmp.content);
                             return null;
