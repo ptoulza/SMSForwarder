@@ -95,7 +95,9 @@ public class MessageHelper {
                     if(key.equals("D")){
                         //Control of SMS destinator
                         if(!value.startsWith("336") &&
-                                !value.startsWith("337"))
+                        !value.startsWith("337")&&
+                        !value.startsWith("+336")&&
+                        !value.startsWith("+337"))
                         {
                             //Message body has already been initialized
                             Log.e(TAG,"Message won't be processed because of ugly number : " + tmp.content);
